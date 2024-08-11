@@ -4,6 +4,8 @@ FAQ 客戶服務聊天機器人教學
 
 Live Coding: https://youtu.be/iLOQEIAbiCg
 
+<img src="./screenshot.jpg" width="250">
+
 ## Features
 
 - Using free GPT API from Groq
