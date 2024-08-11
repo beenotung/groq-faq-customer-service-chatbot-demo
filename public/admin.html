@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- ionic over CDN -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
+  </head>
+  <body>
+    <ion-app>
+      <ion-header>
+        <ion-toolbar color="tertiary">
+          <ion-title> Admin Portal </ion-title>
+          <ion-buttons slot="end">
+            <ion-button onclick="saveFAQ()">
+              <ion-icon name="save" slot="start"></ion-icon>
+              Save
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            class="admin-password"
+            label="Admin Password"
+            type="password"
+          ></ion-input>
+        </ion-item>
+        <ion-list id="FAQList">
+          <ion-item-group>
+            <ion-item-divider>
+              <div class="item-title"></div>
+            </ion-item-divider>
+            <input class="item-id" hidden />
+            <ion-item>
+              <ion-input class="item-question" label="Question"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-textarea
+                class="item-answer"
+                label="Answer"
+                auto-grow
+              ></ion-textarea>
+            </ion-item>
+          </ion-item-group>
+        </ion-list>
+        <script>
+          let itemTemplate = FAQList.querySelector('ion-item-group')
+          itemTemplate.remove()
+
+          async function init() {
+            FAQList.textContent = 'Loading FAQ...'
+            let res = await fetch('/faq')
+            let json = await res.json()
+            let FAQ = json.items
+            FAQList.textContent = ''
+            let i = 0
+            for (let row of FAQ) {
+              i++
+              let item = itemTemplate.cloneNode(true)
+              item.querySelector('.item-title').textContent = '#' + i
+              item.querySelector('.item-id').value = row.id
+              item.querySelector('.item-question').value = row.question
+              item.querySelector('.item-answer').value = row.answer
+              FAQList.appendChild(item)
+            }
+          }
+
+          init()
+
+          async function saveFAQ() {
+            let items = FAQList.querySelectorAll('ion-item-group')
+            let body = {
+              password: document.querySelector('.admin-password').value,
+              items: [],
+            }
+            for (let item of items) {
+              let row = {
+                id: item.querySelector('.item-id').value,
+                question: item.querySelector('.item-question').value,
+                answer: item.querySelector('.item-answer').value,
+              }
+              body.items.push(row)
+            }
+            let res = await fetch('/faq', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(body),
+            })
+            let json = await res.json()
+            if (json.error) {
+              alert(json.error)
+              return
+            }
+            alert('saved')
+          }
+        </script>
+      </ion-content>
+    </ion-app>
+  </body>
+</html>
