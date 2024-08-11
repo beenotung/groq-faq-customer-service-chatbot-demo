@@ -2,7 +2,7 @@
 
 FAQ 客戶服務聊天機器人教學
 
-Live Coding: https://youtu.be/iLOQEIAbiCg
+Live Coding: https://youtu.be/77J2H9qVNPI
 
 <img src="./screenshot.jpg" width="250">
 
