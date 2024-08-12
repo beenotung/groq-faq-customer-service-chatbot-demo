@@ -23,6 +23,12 @@ Live Coding: https://youtu.be/77J2H9qVNPI
 - Backend: Typescript (with express)
 - Database: Sqlite (with quick-erd)
 
+## Remark
+
+呢個係 CRUD 應用嘅 demo，唔係正式的 RAG
+
+詳細看：https://www.facebook.com/groups/hkfullstackdev/posts/2145260999191941?comment_id=2145273109190730&reply_comment_id=2145477555836952
+
 ## License
 
 This project is licensed with [BSD-2-Clause](./LICENSE)
